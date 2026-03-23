@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 50;
     private int currentHealth;
 
-    public event Action OnEnemyDeath;
+    public System.Action OnEnemyDeath;
 
     void Start()
     {

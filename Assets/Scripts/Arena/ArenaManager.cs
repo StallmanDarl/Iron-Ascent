@@ -6,6 +6,7 @@ public class ArenaManager : MonoBehaviour
 
     int totalPockets;
     int clearedPockets;
+    bool arenaComplete = false;
 
     void Awake()
     {
@@ -22,13 +23,17 @@ public class ArenaManager : MonoBehaviour
     {
         clearedPockets++;
 
-        if (clearedPockets >= totalPockets)
+        if (clearedPockets >= totalPockets && !arenaComplete)
+        {
+            arenaComplete = true;
             ArenaCleared();
+        }
     }
 
     void ArenaCleared()
     {
         Debug.Log("Arena Cleared!");
+        RunManager.Instance.ArenaCompleted();
         UnlockDoors();
     }
 
