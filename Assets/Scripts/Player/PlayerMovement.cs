@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Combat")]
     public bool isLockedOn = false;
+    [Header("Stamina Costs")]
+    public int sprintDrainPerSecond = 20;
+    public int dodgeCost = 30;
 
     [Header("References")]
     public Rigidbody rb;
@@ -59,7 +62,17 @@ public class PlayerMovement : MonoBehaviour
         moveX = Input.GetAxis("Horizontal");
         moveZ = Input.GetAxis("Vertical");
 
-        isSprinting = Input.GetKey(KeyCode.LeftShift);
+        bool sprintKey = Input.GetKey(KeyCode.LeftShift);
+
+        if (sprintKey && PlayerStamina.Instance.HasStamina(1))
+        {
+            isSprinting = true;
+            PlayerStamina.Instance.UseStamina((int)(sprintDrainPerSecond * Time.deltaTime));
+        }
+        else
+        {
+            isSprinting = false;
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -167,6 +180,11 @@ public class PlayerMovement : MonoBehaviour
     void TryDodge()
     {
         if (Time.time - lastDodgeTime < dodgeCooldown) return;
+
+        // Block dodge is stamina too low
+        if (!PlayerStamina.Instance.HasStamina(dodgeCost)) return;
+
+        PlayerStamina.Instance.UseStamina(dodgeCost);
 
         Vector3 direction = transform.forward;
 

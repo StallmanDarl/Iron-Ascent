@@ -11,14 +11,39 @@ public class EnemyCombat : MonoBehaviour
     private GameObject player;
     private NavMeshAgent agent;
 
+    // Reference to player's health script
+    private PlayerHealth playerHealth;
+
     void Start()
     {
+        // Find player by tag
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // Cache NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
+
+        // Cache PlayerHealth component for faster access
+        if (player != null)
+        {
+            // Try multiple ways to find PlayerHealth
+            playerHealth = player.GetComponent<PlayerHealth>();
+
+            if (playerHealth == null)
+                playerHealth = player.GetComponentInChildren<PlayerHealth>();
+            if (playerHealth == null)
+                playerHealth = player.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth == null)
+                Debug.LogError("PlayerHealth NOT FOUND on Player!");
+            else
+                Debug.Log("PlayerHealth found successfully.");
+        }
     }
 
     void Update()
     {
+        if (player == null) return;
+
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
         // Stop moving when close enough to attack
@@ -42,7 +67,17 @@ public class EnemyCombat : MonoBehaviour
             Debug.Log("Enemy Attacks Player!");
 
             // Later: trigger animation here
-            // Later: reduce player health here
+
+            // Damage the player
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+                Debug.Log("Player took damage: " + damage);
+            }
+            else
+            {
+                Debug.LogError("PlayerHealth still NULL during attack.");
+            }
         }
     }
 }

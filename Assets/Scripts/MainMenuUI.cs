@@ -5,7 +5,9 @@ public class MainMenuUI : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        RunManager.EnsureExists();
+        RunManager.Instance.ResetRunProgress();
+        TransitionManager.Instance.LoadSceneWithSpawn("HomeBase", "FromScene");
     }
 
     public void QuitGame()
