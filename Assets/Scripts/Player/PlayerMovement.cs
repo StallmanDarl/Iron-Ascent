@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius = 0.25f;
     public LayerMask groundLayer;
 
+    bool isRunning;
     bool isGrounded;
     bool isJumping;
     bool controlLocked;
@@ -54,9 +55,17 @@ public class PlayerMovement : MonoBehaviour
     bool isSprinting;
 
     Vector3 currentVelocity;
+    private Animator animator;
+
+    void Start()
+    {
+        // Get references to the Animator and CharacterController components
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
+
         if (isDodging) return;
 
         moveX = Input.GetAxis("Horizontal");
@@ -136,9 +145,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 direction = GetCameraRelativeDirection();
         Vector3 targetVelocity = direction.normalized * speed;
+        bool isMoving;
 
         if (direction.magnitude < 0.1f)
         {
+            isMoving = false;
             currentVelocity = Vector3.MoveTowards(
                 currentVelocity,
                 Vector3.zero,
@@ -147,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            isMoving = true;
             currentVelocity = Vector3.MoveTowards(
                 currentVelocity,
                 targetVelocity,
@@ -159,6 +171,9 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity.y,
             currentVelocity.z
         );
+
+        animator.SetBool("isRunning", isMoving);
+
     }
 
     void RotatePlayer()
@@ -223,6 +238,8 @@ public class PlayerMovement : MonoBehaviour
         );
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        animator.SetTrigger("Jump");
     }
 
     IEnumerator Dodge(Vector3 direction)
@@ -317,4 +334,6 @@ public class PlayerMovement : MonoBehaviour
 
         return camForward * moveZ + camRight * moveX;
     }
+
+    
 }

@@ -5,7 +5,11 @@ public class PlayerAttackTester : MonoBehaviour
     public int damage = 25;
     public float attackRange = 3f;
     public int staminaCost = 20;
+    private Animator animator;
 
+    void Start() {
+        animator = GetComponent<Animator>();
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -14,6 +18,9 @@ public class PlayerAttackTester : MonoBehaviour
             if (!PlayerStamina.Instance.HasStamina(staminaCost))
             {
                 return;
+            }
+            else {
+                animator.SetTrigger("Attack");
             }
 
             PlayerStamina.Instance.UseStamina(staminaCost);

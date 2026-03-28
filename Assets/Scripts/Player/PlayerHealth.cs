@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
 
     public delegate void OnHealthChanged(int current, int max);
     public static event OnHealthChanged onHealthChanged;
+    private Animator animator;
 
     void Awake()
     {
