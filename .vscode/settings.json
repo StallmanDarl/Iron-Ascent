@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "IronAscent.sln"
+    "dotnet.defaultSolution": "Iron-Ascent.sln"
 }
