@@ -7,6 +7,8 @@ public class EnemyCombat : MonoBehaviour
     public float attackCooldown = 2f;  // Time between attacks
     public int damage = 10;            // Damage dealt per attack
 
+    private Animator animator;        
+
     private float lastAttackTime;      // Tracks last attack moment
     private GameObject player;
     private NavMeshAgent agent;
@@ -16,6 +18,7 @@ public class EnemyCombat : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         // Find player by tag
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -65,6 +68,8 @@ public class EnemyCombat : MonoBehaviour
         {
             lastAttackTime = Time.time;
             Debug.Log("Enemy Attacks Player!");
+
+            animator.SetTrigger("Attack");
 
             // Later: trigger animation here
 

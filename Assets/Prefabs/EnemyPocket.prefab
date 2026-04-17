@@ -147,7 +147,15 @@ MonoBehaviour:
   - {fileID: 3109698639532715175}
   - {fileID: 4329393877288251962}
   enemyPrefabs:
-  - {fileID: 4488645133217950939, guid: c2d7eae8a4fb3dc45bd23618d71d6f31, type: 3}
+  - {fileID: 8929460682048780576, guid: 1eac3b96e7b948342b4a688a4688b24a, type: 3}
+  - {fileID: 8929460682048780576, guid: 1eac3b96e7b948342b4a688a4688b24a, type: 3}
+  - {fileID: 7784713986710650368, guid: c1dc259947e018a45be6fdff8966b220, type: 3}
+  - {fileID: 7784713986710650368, guid: c1dc259947e018a45be6fdff8966b220, type: 3}
+  - {fileID: 3433118415629529582, guid: 8b93fac4782cc0e469e8be343adf0af4, type: 3}
+  - {fileID: 3433118415629529582, guid: 8b93fac4782cc0e469e8be343adf0af4, type: 3}
+  - {fileID: 6033318168988078012, guid: c7e386fafb1a62443b0ef933abaec82a, type: 3}
+  - {fileID: 6033318168988078012, guid: c7e386fafb1a62443b0ef933abaec82a, type: 3}
+  - {fileID: 7068609772233180776, guid: fb5d28d3b909a424ea626ddc9ff66d66, type: 3}
   enemyCount: 5
 --- !u!135 &6923971095123632425
 SphereCollider:

@@ -5,8 +5,13 @@ public class EnemyAI: MonoBehaviour
 {
     private GameObject player = null;
     public NavMeshAgent agent;
+    private Animator animator;
+    public bool isMoving = false;
+
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
         if (player == null) {
             Debug.Log("Finding player by Player tag!");
             player = GameObject.FindGameObjectWithTag("Player");
@@ -24,6 +29,7 @@ public class EnemyAI: MonoBehaviour
         {
             //Place the object to the NavMesh.
             this.transform.position = closestHit.position;
+            isMoving = true;
         }
         //setup agent if not assigned
         if (agent == null) {
@@ -42,5 +48,6 @@ public class EnemyAI: MonoBehaviour
     }
     public void Update() {
         agent.destination = player.transform.position;
+        animator.SetBool("isRunning", isMoving);
     }
 }

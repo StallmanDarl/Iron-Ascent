@@ -6,10 +6,13 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 50;
     private int currentHealth;
 
+    private Animator animator;
+
     public System.Action OnEnemyDeath;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
     }
 
@@ -17,6 +20,8 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= amount;
         Debug.Log("Enemy took damage: " + amount);
+
+        animator.SetTrigger("Hurt");
 
         if (currentHealth <= 0)
         {

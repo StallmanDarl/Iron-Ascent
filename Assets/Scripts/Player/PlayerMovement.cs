@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Get references to the Animator and CharacterController components
+        // Get references to the Animator
         animator = GetComponent<Animator>();
     }
 
