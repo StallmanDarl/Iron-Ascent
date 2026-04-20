@@ -65,6 +65,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsShowingUpgradeCards())
+        {
+            return;
+        }
 
         if (isDodging) return;
 

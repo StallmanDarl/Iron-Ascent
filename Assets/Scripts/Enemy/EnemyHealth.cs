@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("HealthBar")]
+    public Slider healthBar;
     public int maxHealth = 50;
     private int currentHealth;
 
@@ -13,12 +16,14 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        healthBar.maxValue = maxHealth;
         currentHealth = maxHealth;
     }
 
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        healthBar.value = currentHealth;
         Debug.Log("Enemy took damage: " + amount);
 
         animator.SetTrigger("Hurt");

@@ -1,67 +1,138 @@
 using UnityEngine;
+using Unity.Cinemachine;
 
+[ExecuteAlways]
 public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("References")]
     public Transform target;
 
     [Header("Camera Settings")]
-    public float distance = 5f;         // Max camera distance
-    public float height = 2f;           // Pivot height above player
+    public float distance = 5f;
+    public float height = 2f;
     public float mouseSensitivity = 3f;
-    public float followSpeed = 10f;     // How fast pivot follows player
-    public float collisionBuffer = 0.2f; 
-    public float cameraRadius = 0.3f;   // SphereCast radius
+    public float followSpeed = 10f;
+    public float collisionBuffer = 0.2f;
+    public float cameraRadius = 0.3f;
+    public float minPitch = -25f;
+    public float maxPitch = 60f;
 
     [Header("Collision")]
     public LayerMask cameraCollisionMask;
 
-    private float currentX;
-    private float currentY = 15f;
-    private Vector3 cameraPivot;
+    float currentX;
+    float currentY = 15f;
+    Vector3 cameraPivot;
+    float currentDistance;
+
+    CinemachineCamera virtualCamera;
+    CinemachineBrain brain;
+
+    void Awake()
+    {
+        EnsureRig();
+        cameraPivot = target != null ? target.position : transform.position;
+
+        if (currentDistance <= 0f)
+        {
+            currentDistance = distance;
+        }
+    }
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        cameraPivot = target.position; // Initial pivot at player position
+        if (Application.isPlaying)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    void OnValidate()
+    {
+        distance = Mathf.Max(0.5f, distance);
+        cameraRadius = Mathf.Max(0.05f, cameraRadius);
+        followSpeed = Mathf.Max(0.01f, followSpeed);
+        EnsureRig();
+        SyncRig();
     }
 
     void Update()
     {
-        // Mouse input
-        currentX += Input.GetAxis("Mouse X") * mouseSensitivity;
-        currentY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        currentY = Mathf.Clamp(currentY, -25f, 60f);
+        if (Application.isPlaying)
+        {
+            currentX += Input.GetAxis("Mouse X") * mouseSensitivity;
+            currentY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            currentY = Mathf.Clamp(currentY, minPitch, maxPitch);
+        }
     }
 
     void LateUpdate()
     {
-        // Smoothly follow player
-        cameraPivot = Vector3.Lerp(cameraPivot, target.position, followSpeed * Time.deltaTime);
-        Vector3 pivot = cameraPivot + Vector3.up * height;
+        EnsureRig();
+        SyncRig();
+    }
 
-        // Rotation based on mouse
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        Vector3 desiredPosition = pivot + rotation * new Vector3(0, 0, -distance);
-        Vector3 direction = desiredPosition - pivot;
-
-        // SphereCast for collision
-        RaycastHit hit;
-        float targetDistance = distance;
-
-        if (Physics.SphereCast(pivot, cameraRadius, direction.normalized, out hit, distance, cameraCollisionMask))
+    void EnsureRig()
+    {
+        if (target == null)
         {
-            // Clamp camera to hit distance but not behind player
-            targetDistance = Mathf.Clamp(hit.distance - (collisionBuffer + cameraRadius), 0.1f, distance);
+            return;
         }
 
-        // Smooth distance adjustment (optional: prevents popping)
-        float smoothDistance = Mathf.Lerp(Vector3.Distance(transform.position, pivot), targetDistance, followSpeed * Time.deltaTime);
+        brain = GetComponent<CinemachineBrain>();
+        if (brain == null)
+        {
+            brain = gameObject.AddComponent<CinemachineBrain>();
+        }
 
-        // Apply final camera position
-        transform.position = pivot + direction.normalized * smoothDistance;
+        Transform rigTransform = transform.Find("CM Orbit Camera");
+        if (rigTransform == null)
+        {
+            GameObject rigObject = new GameObject("CM Orbit Camera");
+            rigTransform = rigObject.transform;
+            rigTransform.SetParent(transform, false);
+        }
 
-        // Look at the pivot
-        transform.LookAt(pivot);
+        virtualCamera = rigTransform.GetComponent<CinemachineCamera>();
+        if (virtualCamera == null)
+        {
+            virtualCamera = rigTransform.gameObject.AddComponent<CinemachineCamera>();
+        }
+
+        virtualCamera.Priority.Value = 100;
+    }
+
+    void SyncRig()
+    {
+        if (virtualCamera == null || target == null)
+        {
+            return;
+        }
+
+        cameraPivot = Vector3.Lerp(cameraPivot, target.position, followSpeed * Time.deltaTime);
+        Vector3 pivot = cameraPivot + Vector3.up * height;
+        Quaternion orbitRotation = Quaternion.Euler(currentY, currentX, 0f);
+        Vector3 desiredDirection = orbitRotation * Vector3.back;
+
+        float targetDistance = distance;
+        RaycastHit hit;
+        if (Physics.SphereCast(pivot, cameraRadius, desiredDirection, out hit, distance, cameraCollisionMask))
+        {
+            targetDistance = Mathf.Clamp(hit.distance - (collisionBuffer + cameraRadius), 0.15f, distance);
+        }
+
+        if (currentDistance <= 0f)
+        {
+            currentDistance = targetDistance;
+        }
+
+        float damping = Application.isPlaying ? Time.deltaTime * followSpeed : 1f;
+        currentDistance = Mathf.Lerp(currentDistance, targetDistance, damping);
+
+        Vector3 finalPosition = pivot + desiredDirection.normalized * currentDistance;
+        Quaternion finalRotation = Quaternion.LookRotation(pivot - finalPosition, Vector3.up);
+
+        virtualCamera.transform.SetPositionAndRotation(finalPosition, finalRotation);
     }
 }

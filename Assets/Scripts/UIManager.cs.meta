@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 399f1ec0046a7c24f96db4486756ccf2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gameplayHUD: {instanceID: 0}
+  - upgradeOverlay: {fileID: 100004, guid: c3d9f69c6e4f5d7fbace3ebcaf805123, type: 3}
+  - healthBar: {instanceID: 0}
+  - staminaBar: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

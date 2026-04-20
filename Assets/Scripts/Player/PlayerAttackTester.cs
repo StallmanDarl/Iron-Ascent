@@ -12,6 +12,11 @@ public class PlayerAttackTester : MonoBehaviour
     }
     void Update()
     {
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsShowingUpgradeCards())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             // Block attack if not enough stamina

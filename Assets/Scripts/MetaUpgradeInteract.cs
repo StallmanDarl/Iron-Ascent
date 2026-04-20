@@ -6,12 +6,15 @@ public class MetaUpgradeInteract : MonoBehaviour
 
     void Start()
     {
-        interactPrompt.SetActive(false);
+        if (interactPrompt != null)
+        {
+            interactPrompt.SetActive(false);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && interactPrompt != null && UpgradeManager.Instance != null && !UpgradeManager.Instance.IsShowingUpgradeCards())
         {
             interactPrompt.SetActive(true);
         }
@@ -19,7 +22,7 @@ public class MetaUpgradeInteract : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && interactPrompt != null)
         {
             interactPrompt.SetActive(false);
         }
@@ -27,15 +30,14 @@ public class MetaUpgradeInteract : MonoBehaviour
 
     void Update()
     {
-        if (interactPrompt.activeSelf && Input.GetKeyDown(KeyCode.E))
+        if (interactPrompt == null)
         {
-            Debug.Log("Meta Upgrade Collected");
+            return;
+        }
 
-            // Example: Always give health upgrade for now
-            GameManager.Instance.ApplyMetaUpgrade("Health");
-
-            // Later add a transition sequence between this and the first arena
-            RunManager.Instance.MetaUpgradeCollected();
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsShowingUpgradeCards())
+        {
+            interactPrompt.SetActive(false);
         }
     }
 }

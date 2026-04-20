@@ -34,7 +34,9 @@ public class ArenaManager : MonoBehaviour
     {
         Debug.Log("Arena Cleared!");
         RunManager.Instance.ArenaCompleted();
-        UnlockDoors();
+
+        UpgradeManager.EnsureExists();
+        UpgradeManager.Instance.ShowArenaUpgradeChoices(UnlockDoors);
     }
 
     void UnlockDoors()

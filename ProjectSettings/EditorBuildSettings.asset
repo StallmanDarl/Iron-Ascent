@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/ArenaScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/AscendingArena.unity
+    guid: 64f12b0f652a15041ae437c90b8e3803
+  - enabled: 1
+    path: Assets/Scenes/TowerArena.unity
+    guid: 0a73f4cfb9f9da4489887dcba97b22c0
+  - enabled: 1
     path: Assets/Scenes/MetaUpgradeScene.unity
     guid: bf5bc4746836fee4592f0cf160a477d5
   m_configObjects:
