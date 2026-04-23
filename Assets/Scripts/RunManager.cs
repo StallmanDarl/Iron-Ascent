@@ -71,7 +71,7 @@ public class RunManager : MonoBehaviour
     public void MetaUpgradeCollected()
     {
         Debug.Log("Meta Upgrade Complete - Starting New Run");
-
+        metaTier++;
         ResetRunProgress();
         TransitionManager.Instance.LoadSceneWithSpawn("HomeBase", "FromScene");
         PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;

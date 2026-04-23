@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 2
   attackCooldown: 2
-  damage: 0
+  damage: 5
 --- !u!114 &4075001200763153352
 MonoBehaviour:
   m_ObjectHideFlags: 0

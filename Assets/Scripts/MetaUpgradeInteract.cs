@@ -38,6 +38,13 @@ public class MetaUpgradeInteract : MonoBehaviour
         if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsShowingUpgradeCards())
         {
             interactPrompt.SetActive(false);
+            return;
+        }
+
+        if (interactPrompt.activeSelf && Input.GetKeyDown(KeyCode.E))
+        {
+            UpgradeManager.EnsureExists();
+            UpgradeManager.Instance.ShowMetaUpgradeChoices();
         }
     }
 }

@@ -157,6 +157,8 @@ public class UpgradeManager : MonoBehaviour
             choice.apply?.Invoke();
             ApplyAllUpgradesToPlayer();
 
+            SkyboxManager.Instance.ApplySkybox();
+
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.HideUpgradeChoices();
@@ -170,12 +172,6 @@ public class UpgradeManager : MonoBehaviour
     {
         metaCardsShownThisScene = false;
         ApplyAllUpgradesToPlayer();
-
-        if (scene.name == "MetaUpgradeScene" && !metaCardsShownThisScene)
-        {
-            metaCardsShownThisScene = true;
-            ShowMetaUpgradeChoices();
-        }
     }
 
     List<UpgradeChoice> BuildArenaUpgradePool()

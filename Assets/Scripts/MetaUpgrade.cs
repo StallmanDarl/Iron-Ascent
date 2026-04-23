@@ -4,13 +4,13 @@ public class MetaUpgrade : MonoBehaviour
 {
     public void ChooseHealthUpgrade()
     {
-        UpgradeManager.EnsureExists();
-        UpgradeManager.Instance.ShowMetaUpgradeChoices();
+        GameManager.Instance.ApplyMetaUpgrade("Health");
+        RunManager.Instance.MetaUpgradeCollected();
     }
 
     public void ChooseDamageUpgrade()
     {
-        UpgradeManager.EnsureExists();
-        UpgradeManager.Instance.ShowMetaUpgradeChoices();
+        GameManager.Instance.ApplyMetaUpgrade("Damage");
+        RunManager.Instance.MetaUpgradeCollected();
     }
 }
