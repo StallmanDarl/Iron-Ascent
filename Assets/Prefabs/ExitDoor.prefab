@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21c17f040b4dafa47908b2cdd89e5500, type: 2}
+  - {fileID: 2100000, guid: ec10693ac95deac47aeda0eb95589e9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorPrompt: {fileID: 700936530113445992}
   nextArenaName: ArenaScene
+  spawnPointName: 
+  unlocked: 0
 --- !u!1 &700936530113445992
 GameObject:
   m_ObjectHideFlags: 0

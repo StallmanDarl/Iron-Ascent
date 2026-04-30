@@ -58,14 +58,24 @@ public class RangedEnemy : MonoBehaviour
             lastAttackTime = Time.time;
 
             // Create bullet and aim it directly at player's current position
-            GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            GameObject bullet = Instantiate(
+                projectilePrefab, 
+                firePoint.position, 
+                Quaternion.identity);
             
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                // Fire in the direction the enemy is currently facing
-                rb.linearVelocity = transform.forward * projectileSpeed;
-            }
+        if (rb != null)
+        {
+            // Direct shot at player's exact current position
+            Vector3 shootDirection =
+                (player.transform.position - firePoint.position).normalized;
+
+            rb.linearVelocity = shootDirection * projectileSpeed;
+
+            // Rotate projectile to face direction of travel
+            bullet.transform.rotation =
+                Quaternion.LookRotation(shootDirection);
+        }
         }
     }
 }

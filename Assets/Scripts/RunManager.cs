@@ -13,7 +13,7 @@ public class RunManager : MonoBehaviour
     public int metaTier = 0;
 
     [Header("Arena Rotation")]
-    [SerializeField] string[] arenaSceneNames = { "ArenaScene", "AscendingArena", "TowerArena" };
+    [SerializeField] string[] arenaSceneNames = { "ColosseumArena", "GrandStadiumArena", "AscendingArena", "TowerArena", /*"BoxArena", "BoxJumpArena"*/ };
     [SerializeField] int recentArenaMemory = 1;
 
     readonly List<string> recentArenaHistory = new List<string>();

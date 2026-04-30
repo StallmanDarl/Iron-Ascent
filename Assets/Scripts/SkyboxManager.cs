@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,6 +37,9 @@ public class SkyboxManager : MonoBehaviour
         }
 
         int tier = RunManager.Instance.metaTier;
+
+        RenderSettings.ambientIntensity = 1f + tier * 0.2f;
+        RenderSettings.fogColor = Color.Lerp(Color.gray, Color.red, tier * 0.3f);
 
         if (tier <= 0 || metaSkyboxes.Length == 0)
         {
