@@ -16,6 +16,9 @@ public class RunManager : MonoBehaviour
     [SerializeField] string[] arenaSceneNames = { "ColosseumArena", "GrandStadiumArena", "AscendingArena", "TowerArena", /*"BoxArena", "BoxJumpArena"*/ };
     [SerializeField] int recentArenaMemory = 1;
 
+    [Header("Victory")]
+    public int finalMetaTier = 4; // For play testing
+
     readonly List<string> recentArenaHistory = new List<string>();
 
     void Awake()
@@ -72,7 +75,21 @@ public class RunManager : MonoBehaviour
     {
         Debug.Log("Meta Upgrade Complete - Starting New Run");
         metaTier++;
+
+        // WIN CONDITION
+        if (metaTier > finalMetaTier)
+        {
+            VictoryAchieved();
+            return;
+        }
+
         ResetRunProgress();
+
+        if (MetaLightingManager.Instance != null)
+        {
+            MetaLightingManager.Instance.ApplyLighting();
+        }
+
         TransitionManager.Instance.LoadSceneWithSpawn("HomeBase", "FromScene");
         PlayerHealth.Instance.currentHealth = PlayerHealth.Instance.maxHealth;
     }
@@ -178,5 +195,27 @@ public class RunManager : MonoBehaviour
         {
             recentArenaHistory.RemoveAt(0);
         }
+    }
+
+    void VictoryAchieved()
+    {
+        Debug.Log("PLAYER WON THE GAME");
+
+        metaTier = 0;
+        ResetRunProgress();
+
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.ResetRunUpgrades();
+        }
+
+        StartCoroutine(VictorySequence());
+    }
+
+    System.Collections.IEnumerator VictorySequence()
+    {
+        Debug.Log("The ascent is complete.");
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("TitleScene");
     }
 }

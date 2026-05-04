@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5d2cc2a75442f499027aa0c02cffce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 999
   attackRange: 3
   staminaCost: 20
 --- !u!114 &2879113824634159855
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f6593362c2adc47befc5eb58d0dfff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 9999
   currentHealth: 0
 --- !u!114 &6216774103382185809
 MonoBehaviour:
@@ -863,9 +863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9ffeaa2932acf40bc36e822d71f227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStamina: 100
+  maxStamina: 300
   currentStamina: 100
-  regenRatePerSecond: 25
+  regenRatePerSecond: 50
   regenDelay: 1.2
 --- !u!114 &4740917644190776919
 MonoBehaviour:
